@@ -1,0 +1,65 @@
+﻿@model Storefront.DATA.EF.Models.CustomerData
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>CustomerData</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CustomerId" />
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        
+            <div class="form-group">
+                <label asp-for="CustomerCity" class="control-label"></label>
+                <input asp-for="CustomerCity" class="form-control" />
+                <span asp-validation-for="CustomerCity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerState" class="control-label"></label>
+                <input asp-for="CustomerState" class="form-control" />
+                <span asp-validation-for="CustomerState" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerZip" class="control-label"></label>
+                <input asp-for="CustomerZip" class="form-control" />
+                <span asp-validation-for="CustomerZip" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerCountry" class="control-label"></label>
+                <input asp-for="CustomerCountry" class="form-control" />
+                <span asp-validation-for="CustomerCountry" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,93 @@
+﻿@{
+}
+@model Dictionary<int, CartItemViewModel>
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<section class="product_section layout_padding">
+    <div class="container">
+        <div class="heading_container heading_center">
+            <h2>Your <span>Cart</span></h2>
+            <p align="center">
+                <a asp-action="TiledIndex" asp-controller="Records" class="btn btn-info text-white">Back to Shopping</a>
+            </p>
+        </div>
+        @if (ViewBag.Message != null)
+        {
+            <p class="alert alert-warning text-center">
+                @ViewBag.Message
+            </p>
+        }
+        else
+        {
+            <table class="table table-primary">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Values)
+                    {
+                        <tr>
+                            <td><img src="~/images/t_@item.Record.CoverArt" alt="@item.Record.CoverArt" /></td>
+                            <td>@Html.DisplayFor(x => item.Record.RecordName)</td>
+                            <td>
+                                <form asp-action="UpdateCart" method="post">
+                                    <input type="hidden" name="id" value="@item.Record.CoverArt">
+
+                                    <input type="number"
+                                           asp-for="@item.Qty"
+                                           name="QTY"
+                                           class="form-control mx-auto text-center mb-0"
+                                           min="0"
+                                           max="@short.MaxValue" />
+                                    <button type="submit" class="btn btn-primary btn-sm btn-block mt-0">Update Cart</button>
+                                </form>
+                            </td>
+                            <td>@Html.DisplayFor(x => item.Record.Price)</td>
+                            <td>@($"{item.Record.Price * item.Qty:c}")</td>
+                            <th>
+                                <form asp-action="RemoveFromCart" method="post">
+                                    <input type="hidden" name="id" value="@item.Record.RecordId">
+                                    <button type="submit" class="btn btn-danger">Remove From Cart</button>
+                                </form>
+                            </th>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="alert alert-success text-center">
+                <p>
+                    Your total before taxes and shipping is
+                    @($"{Model.Values.Sum(x => x.Qty * x.Record.Price):c}.")
+                </p>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <p>
+                        <a asp-action="Checkout" class="btn btn-primary">
+                            Submit Order
+                        </a>
+                    </p>
+                }
+                else
+                {
+                    <p>
+                        To place this order, you must be logged in.
+                    </p>
+                    <a asp-action="Checkout" disabled class="btn btn-primary">
+                        Submit Order
+                    </a>
+
+                }
+            </div>
+        }
+    </div>
+</section>

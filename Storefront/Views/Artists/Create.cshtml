@@ -1,0 +1,72 @@
+﻿@model Storefront.DATA.EF.Models.Artist
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Artist</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ArtistName" class="control-label"></label>
+                <input asp-for="ArtistName" class="form-control" />
+                <span asp-validation-for="ArtistName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="State" class="control-label"></label>
+                <input asp-for="State" class="form-control" />
+                <span asp-validation-for="State" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country" class="control-label"></label>
+                <input asp-for="Country" class="form-control" />
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YearsActive" class="control-label"></label>
+                <input asp-for="YearsActive" class="form-control" />
+                <span asp-validation-for="YearsActive" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfAlbums" class="control-label"></label>
+                <input asp-for="NumberOfAlbums" class="form-control" />
+                <span asp-validation-for="NumberOfAlbums" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Members" class="control-label"></label>
+                <input asp-for="Members" class="form-control" />
+                <span asp-validation-for="Members" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GenreId" class="control-label"></label>
+                <select asp-for="GenreId" class ="form-control" asp-items="ViewBag.GenreId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArtistImage" class="control-label"></label>
+                <input asp-for="ArtistImage" class="form-control" />
+                <span asp-validation-for="ArtistImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

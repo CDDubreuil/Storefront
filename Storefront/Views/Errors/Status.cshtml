@@ -1,0 +1,14 @@
+﻿@model (int Id, string Message);
+@{
+    ViewBag.Title = "404 Page Not Found";
+}
+<section class="product_section layout_padding">
+    <div class="container">
+        <div class="heading_container heading_center">
+            <h2>@Model.Id <span>@Model.Message</span></h2>
+        </div>
+        <p align="center" class="text-info">
+            Please use the navigation to return to a different page.
+        </p>
+    </div>
+</section>

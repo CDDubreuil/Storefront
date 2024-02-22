@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Storefront.DATA.EF.Models.Record>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RecordName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Artist)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CoverArt)
+            </th>
+          @*  <th>
+                @Html.DisplayNameFor(model => model.ExecutiveProducer)
+            </th>*@
+           @* <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecordName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Artist.ArtistName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+                <td>
+
+                    <img src="~/img/@item.CoverArt" class="img-fluid" height="250" width="250 "alt="@item.CoverArt">
+                </td>
+           @* <td>
+                @Html.DisplayFor(modelItem => item.ExecutiveProducer)
+            </td>*@
+           @* <td>
+                @Html.DisplayFor(modelItem => item.Status.StatusId)
+            </td>*@
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.RecordId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RecordId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RecordId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
