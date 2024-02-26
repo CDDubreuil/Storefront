@@ -21,7 +21,7 @@
         }
         else
         {
-            <table class="table table-primary">
+            <table class="table table-primary cute-card">
                 <thead>
                     <tr>
                         <th>Image</th>
@@ -36,15 +36,15 @@
                     @foreach (var item in Model.Values)
                     {
                         <tr>
-                            <td><img src="~/images/t_@item.Record.CoverArt" alt="@item.Record.CoverArt" /></td>
+                            <td><img src="~/img/@item.Record.CoverArt" alt="@item.Record.CoverArt"height="80" width="80" /></td>
                             <td>@Html.DisplayFor(x => item.Record.RecordName)</td>
                             <td>
                                 <form asp-action="UpdateCart" method="post">
-                                    <input type="hidden" name="id" value="@item.Record.CoverArt">
+                                    <input type="hidden" name="id" value="@item.Record.RecordId">
 
                                     <input type="number"
                                            asp-for="@item.Qty"
-                                           name="QTY"
+                                           name="Qty"
                                            class="form-control mx-auto text-center mb-0"
                                            min="0"
                                            max="@short.MaxValue" />
@@ -56,7 +56,7 @@
                             <th>
                                 <form asp-action="RemoveFromCart" method="post">
                                     <input type="hidden" name="id" value="@item.Record.RecordId">
-                                    <button type="submit" class="btn btn-danger">Remove From Cart</button>
+                                    <button type="submit" class="btn delete-button">Remove From Cart</button>
                                 </form>
                             </th>
                         </tr>
@@ -82,7 +82,7 @@
                     <p>
                         To place this order, you must be logged in.
                     </p>
-                    <a asp-action="Checkout" disabled class="btn btn-primary">
+                    <a asp-action="Checkout" disabled class="btn cute-button">
                         Submit Order
                     </a>
 

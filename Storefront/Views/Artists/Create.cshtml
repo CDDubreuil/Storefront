@@ -4,13 +4,13 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<h2>Create A New Artist</h2>
 
-<h4>Artist</h4>
-<hr />
-<div class="row">
+
+
+<div class="row cute-card">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ArtistName" class="control-label"></label>
@@ -52,9 +52,17 @@
                 <select asp-for="GenreId" class ="form-control" asp-items="ViewBag.GenreId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="ArtistImage" class="control-label"></label>
-                <input asp-for="ArtistImage" class="form-control" />
-                <span asp-validation-for="ArtistImage" class="text-danger"></span>
+                <label asp-for="ArtistImage" class="control-label d-block text-center"></label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Upload</span>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" asp-for="ImageFile" class="custom-file-input" onchange="$('#file-label').text(this.files[0].name)" />
+                        <label asp-for="ImageFile" class="custom-file-label" id="file-label">Choose File</label>
+                    </div>
+                </div>
+                <span asp-validation-for="ImageName" class="text-danger text-center"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

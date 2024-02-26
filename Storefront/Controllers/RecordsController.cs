@@ -11,6 +11,7 @@ using System.Drawing;
 using Storefront.UI.MVC.Utilities;
 using System.Reflection.Metadata;
 using X.PagedList;
+using Microsoft.AspNetCore.Hosting;
 
 
 namespace Storefront.Controllers
@@ -18,6 +19,7 @@ namespace Storefront.Controllers
     public class RecordsController : Controller
     {
         private readonly StorefrontProjectContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public RecordsController(StorefrontProjectContext context)
         {
@@ -25,6 +27,7 @@ namespace Storefront.Controllers
         }
 
         // GET: Records
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             if (!User.IsInRole("Admin"))
@@ -45,7 +48,7 @@ namespace Storefront.Controllers
                 .ToListAsync();
             if (searchTerm != null)
             {
-                ViewBag.Searchterm = searchTerm;
+                ViewBag.SearchTerm = searchTerm;
                 searchTerm = searchTerm.ToLower();
                 records = records
                     .Where(r => r.SearchString.ToLower().Contains(searchTerm))
@@ -67,6 +70,7 @@ namespace Storefront.Controllers
         }
 
         // GET: Records/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Records == null)
@@ -87,10 +91,13 @@ namespace Storefront.Controllers
         }
 
         // GET: Records/Create
+        [Authorize(Roles ="Admin")]
         public IActionResult Create()
         {
+            ViewBag.GenreId = new SelectList(_context.Genres, "GenreId", "GenreName");
             ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "ArtistName");
-            ViewData["StatusId"] = new SelectList(_context.ProductStatuses, "StatusId", "StatusId");
+          //  ViewData["StatusId"] = new SelectList(_context.ProductStatuses, "StatusId", "StatusId");
+            ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "GenreName");
             return View();
         }
 
@@ -99,20 +106,46 @@ namespace Storefront.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RecordId,RecordName,ArtistId,Year,Price,CoverArt,ExecutiveProducer,StatusId")] Record @record)
-        {
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create([Bind("RecordId,RecordName,ArtistId,Year,Price,CoverArt,ExecutiveProducer")] Record @record)
+        { 
+
             if (ModelState.IsValid)
             {
+                if (record.ImageFile != null && record.ImageFile.Length < 4_194_303)
+                {
+                    record.CoverArt = Guid.NewGuid() + Path.GetExtension(record.ImageName);
+
+                    string webRootPath = _webHostEnvironment.WebRootPath;
+                    string fullImagePath = webRootPath + "/img/";
+                    using var memoryStream = new MemoryStream();
+                    await record.ImageFile.CopyToAsync(memoryStream);
+
+                    using Image img = Image.FromStream(memoryStream);//using System.Drawing;
+
+                    ImageUtility.ResizeImage(fullImagePath, record.CoverArt, img, 500, 100);
+                }
+                else
+                {
+                    record.CoverArt = "noimage.png";
+                }
+
+
+
+
                 _context.Add(@record);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(TiledIndex));
             }
-            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "ArtistName", @record.ArtistId);
-            ViewData["StatusId"] = new SelectList(_context.ProductStatuses, "StatusId", "StatusId", @record.StatusId);
+            ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "GenreName", record.Artist.Genre.GenreName);
+            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "ArtistName", record.ArtistId);
+          //  ViewData["StatusId"] = new SelectList(_context.ProductStatuses, "StatusId", "StatusId", @record.StatusId);
+          
             return View(@record);
         }
 
         // GET: Records/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Records == null)
@@ -126,7 +159,7 @@ namespace Storefront.Controllers
                 return NotFound();
             }
             ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "ArtistName", @record.ArtistId);
-            ViewData["StatusId"] = new SelectList(_context.ProductStatuses, "StatusId", "StatusId", @record.StatusId);
+           // ViewData["StatusId"] = new SelectList(_context.ProductStatuses, "StatusId", "StatusId", @record.StatusId);
             return View(@record);
         }
 
@@ -135,7 +168,8 @@ namespace Storefront.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RecordId,RecordName,ArtistId,Year,Price,CoverArt,ExecutiveProducer,StatusId")] Record @record)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(int id, [Bind("RecordId,RecordName,ArtistId,Year,Price,CoverArt,ExecutiveProducer,Artist.Genre.GenreId")] Record @record)
         {
             if (id != @record.RecordId)
             {
@@ -163,11 +197,12 @@ namespace Storefront.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "ArtistName", @record.ArtistId);
-            ViewData["StatusId"] = new SelectList(_context.ProductStatuses, "StatusId", "StatusId", @record.StatusId);
+           // ViewData["StatusId"] = new SelectList(_context.ProductStatuses, "StatusId", "StatusId", @record.StatusId);
             return View(@record);
         }
 
         // GET: Records/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Records == null)
@@ -190,6 +225,7 @@ namespace Storefront.Controllers
         // POST: Records/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Records == null)

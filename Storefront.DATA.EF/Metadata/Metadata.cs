@@ -50,49 +50,49 @@ namespace Storefront.DATA.EF.Metadata
 
         }
 
-        public class CustomerDataMetadata
-        {
+      
 
-            public string CustomerId { get; set; } = null!; //Primary Key/No Metadata
-            [StringLength(50)]
-            [Display(Name = "First Name")]
-            [Required]
-            public string? FirstName { get; set; }
-            [StringLength(50)]
-            [Display(Name = "Last Name")]
-            [Required]
-            public string LastName { get; set; } = null!;
-            public int OrderId { get; set; } //Foreign Key/No Metadata
-            [StringLength(50)]
-            [Display(Name = "City")]
-            [Required]
-            public string? CustomerCity { get; set; }
-            [StringLength(2)]
-            [Display(Name = "State")]
-            public string? CustomerState { get; set; }
-            [StringLength(5)]
-            [DataType(DataType.PostalCode)]
-            public string? CustomerZip { get; set; }
-            [StringLength(50)]
-            [Display(Name = "Country")]
-            [Required]
-            public string CustomerCountry { get; set; } = null!;
-            [Range(0, 100, ErrorMessage = "Phone number must contain 10 digits")]
-            [Display(Name = "Phone Number")]
-            [Required]
-            public int Phone { get; set; }
+            public class CustomerDataMetadata
+            {
+
+                public string CustomerId { get; set; } = null!; //Primary Key/No Metadata
+                [StringLength(50)]
+                [Display(Name = "First Name")]
+                [Required]
+                public string? FirstName { get; set; }
+                [StringLength(50)]
+                [Display(Name = "Last Name")]
+                [Required]
+                public string LastName { get; set; } = null!;
+                public int OrderId { get; set; } //Foreign Key/No Metadata
+                [StringLength(50)]
+                [Display(Name = "City")]
+                [Required]
+                public string? CustomerCity { get; set; }
+                [StringLength(2)]
+                [Display(Name = "State")]
+                public string? CustomerState { get; set; }
+                [StringLength(5)]
+                [DataType(DataType.PostalCode)]
+                public string? CustomerZip { get; set; }
+                [StringLength(50)]
+                [Display(Name = "Country")]
+                [Required]
+                public string CustomerCountry { get; set; } = null!;
+            [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be 10 digits.")]
+            public string? Phone { get; set; }
 
         }
 
-        public class OrderMetadata
+            public class OrderMetadata
         {
 
             public int OrderId { get; set; } //Primary Key/No Metadata
             [StringLength(25)]
             [Display(Name = "Fulfillment Status")]
-            [Required]
+            
             public string FulfillmentStatus { get; set; } = null!;
-            public string CustomerId { get; set; } = null!; //Foreign Key/No Metadata
+            public string CustomerId { get; set; }  //Foreign Key/No Metadata
             [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]//0:d => MM/dd/yyyy
             [Display(Name = "Order Date")]
             [Required]
@@ -157,7 +157,7 @@ namespace Storefront.DATA.EF.Metadata
 
             public int GenreId { get; set; } //Primary Key/No Metadata
             [StringLength(50)]
-            [Display(Name ="Genre")]
+            [Display(Name = "Genre")]
             public string GenreName { get; set; }
             [StringLength(250)]
             [Display(Name = "Genre Description")]

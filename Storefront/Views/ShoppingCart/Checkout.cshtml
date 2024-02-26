@@ -16,32 +16,32 @@
         </div>
     </div>
 </section>
-<div class="row">
+<div class="row cute-card">
     <div class="col-md-6 offset-3 border shadow rounded p-4">
         <form asp-action="Checkout">
             <div asp-validation-summary="ModelOnly" class="invalid-feedback"></div>
             <div class="form-floating">
-                <input asp-for="FirstName" class="form-control" placeholder="something" />
+                <input asp-for="FirstName" class="form-control" placeholder="First Name" />
                 <label asp-for="FirstName" class="control-label"></label>
                 <span asp-validation-for="FirstName" class="invalid-feedback"></span>
             </div>
             <div class="form-floating">
-                <input asp-for="LastName" class="form-control" placeholder="something" />
+                <input asp-for="LastName" class="form-control" placeholder="Last Name" />
                 <label asp-for="LastName" class="control-label"></label>
                 <span asp-validation-for="LastName" class="invalid-feedback"></span>
             </div>
             <div class="form-floating">
-                <input asp-for="CustomerCity" class="form-control" placeholder="something" />
+                <input asp-for="CustomerCity" class="form-control" placeholder="City" />
                 <label asp-for="CustomerCity" class="control-label"></label>
                 <span asp-validation-for="CustomerCity" class="invalid-feedback"></span>
             </div>
             <div class="form-floating">
-                <input asp-for="CustomerState" class="form-control" placeholder="something" />
+                <input asp-for="CustomerState" class="form-control" placeholder="State" />
                 <label asp-for="CustomerState" class="control-label"></label>
                 <span asp-validation-for="CustomerState" class="invalid-feedback"></span>
             </div>
             <div class="form-floating">
-                <input asp-for="CustomerZip" class="form-control" placeholder="something" />
+                <input asp-for="CustomerZip" class="form-control" placeholder="Zip Code" />
                 <label asp-for="CustomerZip" class="control-label"></label>
                 <span asp-validation-for="CustomerZip" class="invalid-feedback"></span>
             </div>

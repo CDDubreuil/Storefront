@@ -4,12 +4,12 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<h1>Details</h1>
 
 <div>
-    <h4>Record</h4>
+    <h3>@Model.RecordName</h3>
     <hr />
-    <dl class="dl-horizontal">
+    <dl class="dl-horizontal cute-card">
         <dt>
             @Html.DisplayNameFor(model => model.RecordName)
         </dt>
@@ -47,10 +47,10 @@
             @Html.DisplayFor(model => model.Artist.ArtistName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Status)
+            @Html.DisplayNameFor(model => model.Artist.Genre)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Status.StatusId)
+            @Html.DisplayFor(model => model.Artist.Genre.GenreName)
         </dd>
     </dl>
 </div>

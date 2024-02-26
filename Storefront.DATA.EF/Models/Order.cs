@@ -12,10 +12,12 @@ namespace Storefront.DATA.EF.Models
 
         public int OrderId { get; set; }
         public string FulfillmentStatus { get; set; } = null!;
-        public string CustomerId { get; set; } = null!;
+        public string CustomerId { get; set; }
         public DateTime? OrderDate { get; set; }
 
-        public virtual CustomerData? Customer { get; set; } = null!;
+       public virtual CustomerData? Customer { get; set; } 
         public virtual ICollection<RecordOrder> RecordOrders { get; set; }
+
+       
     }
 }

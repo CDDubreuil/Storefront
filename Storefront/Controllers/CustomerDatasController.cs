@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,9 +26,9 @@ namespace Storefront.Controllers
         // GET: CustomerDatas
         public async Task<IActionResult> Index()
         {
-              return _context.CustomerData != null ? 
-                          View(await _context.CustomerData.ToListAsync()) :
-                          Problem("Entity set 'StorefrontProjectContext.CustomerData'  is null.");
+            return _context.CustomerData != null ?
+                        View(await _context.CustomerData.ToListAsync()) :
+                        Problem("Entity set 'StorefrontProjectContext.CustomerData'  is null.");
         }
 
         // GET: CustomerDatas/Details/5
@@ -47,29 +49,62 @@ namespace Storefront.Controllers
             return View(customerData);
         }
 
-        // GET: CustomerDatas/Create
-        public IActionResult Create()
+      //  GET: CustomerDatas/Create
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var customer = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var currentCustomer = await _context.CustomerData.FindAsync(customer);
+            if (currentCustomer != null)
+            {
+
+                CustomerData model = new()
+                {
+                    CustomerId = currentCustomer.CustomerId,
+                    FirstName = currentCustomer.FirstName,
+                    LastName = currentCustomer.LastName,
+                    CustomerCity = currentCustomer.CustomerCity,
+                    CustomerState = currentCustomer.CustomerState,
+                    CustomerZip = currentCustomer.CustomerZip
+                };
+
+                return View(model);
+            }
+            else
+            {
+                return View(new CustomerData());
+            }
         }
 
-        // POST: CustomerDatas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+    
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,OrderId,CustomerCity,CustomerState,CustomerZip,CustomerCountry,Phone")] CustomerData customerData)
+        public async Task<IActionResult> Create([Bind("FirstName,LastName,OrderId,CustomerCity,CustomerState,CustomerZip,CustomerCountry,Phone")] CustomerData customerData)
         {
+          
             if (ModelState.IsValid)
             {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var existingCustomer= await _context.CustomerData.FindAsync(userId);
+                if(existingCustomer != null)
+                {
+                    ModelState.AddModelError("", "A customer record already exists for this user! Please edit the existing record.");
+                }
+                customerData.CustomerId =userId;
+
                 _context.Add(customerData);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            else
+            {
+                ModelState.AddModelError("", "A customer record already exists for this user! Please edit the existing record.");
+            }
             return View(customerData);
         }
 
-        // GET: CustomerDatas/Edit/5
+
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null || _context.CustomerData == null)
@@ -85,12 +120,10 @@ namespace Storefront.Controllers
             return View(customerData);
         }
 
-        // POST: CustomerDatas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("CustomerId,FirstName,LastName,OrderId,CustomerCity,CustomerState,CustomerZip,CustomerCountry,Phone")] CustomerData customerData)
+        public async Task<IActionResult> Edit(string id, [Bind("FirstName,LastName,OrderId,CustomerCity,CustomerState,CustomerZip,CustomerCountry,Phone")] CustomerData customerData)
         {
             if (id != customerData.CustomerId)
             {
@@ -152,14 +185,15 @@ namespace Storefront.Controllers
             {
                 _context.CustomerData.Remove(customerData);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CustomerDataExists(string id)
         {
-          return (_context.CustomerData?.Any(e => e.CustomerId == id)).GetValueOrDefault();
+            return (_context.CustomerData?.Any(e => e.CustomerId == id)).GetValueOrDefault();
         }
-    }
+    
 }
+    }

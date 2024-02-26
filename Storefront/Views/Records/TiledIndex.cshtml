@@ -10,34 +10,38 @@
 <section class="product_section layout_padding py-4">
     <div class="container">
         <div class="heading_container heading_center">
-            <h2>Shop <span>Records</span></h2>
+            <h2>Shop Records</h2>
             <p align="center">
                 @if (User.IsInRole("Admin"))
                 {
                     <span>
-                        <a asp-action="Create" class="btn btn-primary">Add New Records</a>
+                        <a asp-action="Create" class="btn cute-button">Add New Records</a>
                         &nbsp;
                         <a asp-action="Index" class="btn btn-secondary">Table View</a>
                     </span>
                 }
             </p>
-        </div>
-        <div class="row">
-            <div class="col-sm-6 offset-3">
-                <form asp-action="TiledIndex" method="get">
+       
+        <div class="row cute-card">
+            <div class="col-sm-6  col-sm-offset-3">
+                <form asp-action="TiledIndex" method="get" class="text-center">
                  
-                    <div class="form-floating">
-                        <select name="genreId" class="form-control text-center mb-3" asp-items="ViewBag.GenreId">
-                            <option value="0">[Choose a Genre]</option>
-                        </select>
-                        <label for="categoryId" class="form-label d-block text-center">Genre</label>
-                    </div>
                     <div class="form-floating">
                         <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" class="form-control text-center" placeholder="Search All Records..." />
                         <label for="searchTerm" class="form-label">Search Records...</label>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Apply</button>
-                    <a class="btn btn-secondary btn-block" asp-action="TiledIndex">Clear</a>
+                    <div class="form-floating">
+                        <select name="genreId" class="form-control text-center mb-3" asp-items="ViewBag.Genres">
+                            <option value="0">[Choose a Genre]</option>
+                            @foreach (var genre in ViewBag.Genres)
+                            {
+                                <option value="@genre.Value">@genre.Text</option>
+                            }
+                        </select>
+                        <label for="genreId" class="form-label d-block text-center">Genre</label>
+                    </div>
+                    <button type="submit"  class="btn btn-block cute-button ">Apply</button>
+                    <a class="btn delete-button btn-block" asp-action="TiledIndex">Clear</a>
                 </form>
                 @if (ViewBag.NbrResults != null)
                 {
@@ -49,32 +53,35 @@
                 }
             </div>
         </div>
-
-        <div class="row">
+        </div>
+        <div class="row cute-card">
             @foreach (var item in Model)
             {
                 <div class="col-sm-6 col-md-4">
                     <div class="box h-100">
                         <div class="option_container">
                             <div class="options">
+                        <div class="img-box mt-5">
                                 <a asp-action="Details" asp-route-id="@item.RecordId" class="option1">
-                                    @item.RecordName
+                                    <img  src="~/img/@item.CoverArt" height="250" width="250" alt="@item.RecordName">
                                 </a>
-                                <a asp-action="AddToCart" asp-controller="ShoppingCart" asp-route-id="@item.RecordId" class="option2">
-                                    Add To Cart
-                                </a>
+                        </div>
+                           
+                               
                             </div>
                         </div>
-                        <div class="img-box">
-                            <img src="~/images/@item.CoverArt" alt="@item.RecordName">
-                        </div>
-                        <div class="detail-box">
+                        <div class="detail-box mb-5">
                             <h5>
                                 @item.RecordName
                             </h5>
-                            <h6>
+                            <h5>
                                 @Html.DisplayFor(modelItem => item.Price)
-                            </h6>
+                            </h5>
+                            <h4>
+                                <a asp-action="AddToCart" asp-controller="ShoppingCart" asp-route-id="@item.RecordId" style="color: palevioletred"class="option2">
+                                    Add To Cart
+                                </a>
+                            </h4>
                         </div>
                     </div>
                 </div>
@@ -84,7 +91,7 @@
         <div class="row mt-5">
             <div class="col-md-6 mx-auto text-center">
                 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-                <div class="w-100">
+                <div class="w-100 ">
                     @Html.PagedListPager(
                     Model,
                     page => Url.Action("TiledIndex",

@@ -8,7 +8,7 @@
 
 <h1>Edit User</h1>
 
-<form method="post" class="mt-3">
+<form method="post" class="mt-3 cute-card">
     <div class="form-group row">
         <label asp-for="Id" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
@@ -40,8 +40,8 @@
 
     <div class="form-group row">
         <div class="col-sm-10">
-            <button type="submit" class="btn btn-primary">Update</button>
-            <a asp-action="ListUsers" class="btn btn-primary">Cancel</a>
+            <button type="submit" class="btn cute-button">Update</button>
+            <a asp-action="ListUsers" class="btn cute-button">Cancel</a>
         </div>
     </div>
 
@@ -63,7 +63,7 @@
             }
         </div>
         <div class="card-footer">
-            <a href="@Url.Action("EditUserRoles", "Administration", new {userId = Model.Id})" style="width:auto" class="btn btn-primary">
+            <a href="@Url.Action("EditUserRoles", "Administration", new {userId = Model.Id})" style="width:auto" class="btn cute-button">
                 Manage Roles
             </a>
         </div>
@@ -87,7 +87,7 @@
             }
         </div>
         <div class="card-footer">
-            <a href="#" style="width:auto" class="btn btn-primary">
+            <a href="#" style="width:auto" class="btn cute-button">
                 Manage Claims
             </a>
         </div>

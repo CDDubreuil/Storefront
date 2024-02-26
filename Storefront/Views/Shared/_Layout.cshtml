@@ -1,12 +1,12 @@
 ﻿<!DOCTYPE html>
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
+	
 
 	<title>Storefront Project</title>
 
@@ -26,6 +26,8 @@
 
 	<!-- Font Awesome Icon -->
 	<link rel="stylesheet" href="~/css/font-awesome.min.css">
+
+	<!-- Favicon -->
 
 	<!-- Custom stlylesheet -->
 	<link type="text/css" rel="stylesheet" href="~/css/style.css" />
@@ -66,7 +68,7 @@
 					<div class="col-md-3">
 						<div class="header-logo">
 							<a href="#" class="logo">
-								<img src="~/./img/FluffyPinkUnicorns.png" height="200" width="200" alt="logo">
+								<img src="~/./img/FluffyPinkUnicornsTwo.png" height="200" width="200" alt="logo">
 							</a>
 						</div>
 					</div>
@@ -116,18 +118,17 @@
 											</div>
 											<div class="product-body">
 												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
+												
 											</div>
 											<button class="delete"><i class="fa fa-close"></i></button>
 										</div>
 									</div>
 									<div class="cart-summary">
-										<small>3 Item(s) selected</small>
-										<h5>SUBTOTAL: $2940.00</h5>
+								
 									</div>
 									<div class="cart-btns">
-										<a href="#">View Cart</a>
-										<a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+										<a href=@Url.ActionLink("Index", "ShoppingCart")>View Cart</a>
+										<a href=@Url.ActionLink("Checkout", "ShoppingCart")>Checkout  <i class="fa fa-arrow-circle-right"></i></a>
 									</div>
 								</div>
 							</div>
@@ -163,7 +164,7 @@
 						<a class="nav-link" id="linkcolor" asp-action="Index" asp-controller="Home">Index</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" id="linkcolor" asp-action="Index" asp-controller="Records">Records</a>
+						<a class="nav-link" id="linkcolor" asp-action="TiledIndex" asp-controller="Records">Records</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" id="linkcolor" asp-action="Index" asp-controller="Artists">Artists</a>
@@ -172,24 +173,24 @@
 					<li class="nav-item">
 						<a class="nav-link" id="linkcolor" asp-action="Index" asp-controller="Genres">Genres</a>
 					</li>
-					@if (User.IsInRole("Admin"))
-					{
-					<li class="nav-item">
-						<a class="nav-link" id="linkcolor" asp-action="Index" asp-controller="Orders">Orders</a>
-					</li>
-						<li class="nav-item">
-							<a class="nav-link" id="linkcolor" asp-action="Index" asp-controller="CustomerData">Customers</a>
-						</li>
 
-						<li class="nav-item">
-							<a class="nav-link" id="linkcolor" asp-action="Index" asp-controller="Administration">Admin</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" id="linkcolor" asp-action="ListUsers" asp-controller="Administration">Users</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" id="linkcolor" asp-action="ListRoles" asp-controller="Administration">Roles</a>
-					</li>}
+					@if (User.IsInRole("Admin"))
+				{
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown" id="linkcolor" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Admin
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" id="linkcolor" asp-action="ListUsers" asp-controller="Administration">Users</a>
+                            <a class="dropdown-item" id="linkcolor" asp-action="ListRoles" asp-controller="Administration">Roles</a>
+								<a class="dropdown-item" id="linkcolor" asp-action="Index" asp-controller="Orders">Orders</a>
+							<a class="dropdown-item" id="linkcolor" asp-action="Index" asp-controller="CustomerDatas">Customers</a>
+					
+                            </div>
+                        
+						
+					</li>
+				}
 				</ul>
 				<!-- /NAV -->
 			</div>
@@ -198,7 +199,7 @@
 		<!-- /container -->
 	</nav>
 	<!-- /NAVIGATION -->
-	<div class="container">
+	<div class="container" >
 			@RenderBody()
 			</div>
 
@@ -234,7 +235,7 @@
 						</div>
 					</div>
 
-	>
+	
 					
 
 			
@@ -250,14 +251,7 @@
 				<!-- row -->
 				<div class="row">
 					<div class="col-md-12 text-center">
-						<ul class="footer-payments">
-							<li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
-							<li><a href="#"><i class="fa fa-credit-card"></i></a></li>
-							<li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
-							<li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
-							<li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
-							<li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
-						</ul>
+			
 						<span class="copyright">
 							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 							Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
@@ -278,14 +272,21 @@
 	<script src="~/js/slick.min.js"></script>
 	<script src="~/js/nouislider.min.js"></script>
 	<script src="~/js/jquery.zoom.min.js"></script>
-	<script src="~/js/main.js"></script>
 	<script src="~/js/popper.min.js"></script>
+
+
+
+	<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+
 
 	<!--Datatables-->
 	<script src="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/b-html5-2.4.2/r-2.5.0/datatables.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 	<script src="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-1.13.8/b-2.4.2/b-html5-2.4.2/r-2.5.0/datatables.min.js"></script>
+
+	<!--AJAX Step 2-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js" integrity="sha512-DedNBWPF0hLGUPNbCYfj8qjlEnNE92Fqn7xd3Sscfu7ipy7Zu33unHdugqRD3c4Vj7/yLv+slqZhMls/4Oc7Zg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	@RenderSection("Scripts", false)
 </body>
 </html>

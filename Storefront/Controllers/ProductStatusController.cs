@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Storefront.DATA.EF.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Storefront.Controllers
 {
@@ -19,6 +20,7 @@ namespace Storefront.Controllers
         }
 
         // GET: ProductStatus
+        [Authorize]
         public async Task<IActionResult> Index()
         {
               return _context.ProductStatuses != null ? 
@@ -27,6 +29,7 @@ namespace Storefront.Controllers
         }
 
         // GET: ProductStatus/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.ProductStatuses == null)
@@ -45,6 +48,7 @@ namespace Storefront.Controllers
         }
 
         // GET: ProductStatus/Create
+        [Authorize(Roles ="Admin")]
         public IActionResult Create()
         {
             return View();
@@ -55,6 +59,7 @@ namespace Storefront.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("StatusId,RecordName,ProductStatus1,StatusDescription")] ProductStatus productStatus)
         {
             if (ModelState.IsValid)
@@ -67,6 +72,7 @@ namespace Storefront.Controllers
         }
 
         // GET: ProductStatus/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.ProductStatuses == null)
@@ -87,6 +93,7 @@ namespace Storefront.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("StatusId,RecordName,ProductStatus1,StatusDescription")] ProductStatus productStatus)
         {
             if (id != productStatus.StatusId)
@@ -118,6 +125,7 @@ namespace Storefront.Controllers
         }
 
         // GET: ProductStatus/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.ProductStatuses == null)
@@ -138,6 +146,7 @@ namespace Storefront.Controllers
         // POST: ProductStatus/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.ProductStatuses == null)

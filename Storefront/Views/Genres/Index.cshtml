@@ -4,38 +4,69 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<h1>Genres and Subgenres</h1>
+@if (User.IsInRole("Admin"))
+{
+    <h3> <a asp-action="Create">Create New</a></h3>
+}
+@*Ajax step 6*@
+<div class="row">
+    <div class="offset-md-3 col-md-6">
+        <div class="text-center" id="messageContent"</div>
+    </div>
+</div>
+@*Ajax Step 3*@
+<table class="table" id="genretable" width="40%" margin-bottom="20px">
     <thead>
-        <tr>
-            <th>
+        <tr style="padding: 5px;">
+            <th style="padding: 5px;"> 
                 @Html.DisplayNameFor(model => model.GenreName)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GenreDescription)
-            </th>
-            <th></th>
+         
+           
         </tr>
-    </thead>
+    </thead>   
+
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.GenreName)
+    @*Ajax step 4*@
+        <tr id="genre-@item.GenreId">
+            <td style="padding: 5px;">
+                    <a asp-action="Details" asp-route-id="@item.GenreId">@Html.DisplayFor(modelItem => item.GenreName) </a>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.GenreDescription)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.GenreId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.GenreId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.GenreId">Delete</a>
-            </td>
-        </tr>
+               <button type="button"
+                            class=" btn-link detailsLink btn cute-button"
+                   id="@item.GenreId"
+                   data-toggle="modal"
+                   data-target="#genreDetails">Details</button>
+                </td>
+        </tr>   
+
 }
     </tbody>
 </table>
+
+<div class="modal fade" id="genreDetails" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Details</h5>
+            </div>
+            <div class="modal-body" id="detailsBody">
+                <div class="modal-footer">
+                    <button type="button"class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!--Ajax step 5--!>
+    @section Scripts {
+    <script src="~/js/genres.js"></script>
+    }

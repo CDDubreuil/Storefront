@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -7,12 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Storefront.DATA.EF.Models;
+using Storefront.UI.MVC.Utilities;
 
 namespace Storefront.Controllers
 {
     public class ArtistsController : Controller
     {
         private readonly StorefrontProjectContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public ArtistsController(StorefrontProjectContext context)
         {
@@ -21,7 +24,7 @@ namespace Storefront.Controllers
 
 
         // GET: Artists
-        [Authorize(Roles = "Admin")]
+      
         public async Task<IActionResult> Index()
         {
             var storefrontProjectContext = _context.Artists.Include(a => a.Genre);
@@ -64,6 +67,27 @@ namespace Storefront.Controllers
         {
             if (ModelState.IsValid)
             {
+
+
+                if(artist.ImageFile != null && artist.ImageFile.Length < 4_194_303)
+                {
+                    artist.ArtistImage = Guid.NewGuid() + Path.GetExtension(artist.ImageName);
+
+                    string webRootPath = _webHostEnvironment.WebRootPath;
+                    string fullImagePath = webRootPath + "/img/";
+                    using var memoryStream = new MemoryStream();
+                    await artist.ImageFile.CopyToAsync(memoryStream);
+
+                    using Image img = Image.FromStream(memoryStream);
+                    ImageUtility.ResizeImage(fullImagePath, artist.ArtistImage, img, 250, 250);
+
+                }
+
+                else
+                {
+                    artist.ArtistImage = "noimage.png";
+                }
+
                 _context.Add(artist);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -85,7 +109,7 @@ namespace Storefront.Controllers
             {
                 return NotFound();
             }
-            ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "GenreDescription", artist.GenreId);
+            ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "GenreName", artist.GenreId);
             return View(artist);
         }
 

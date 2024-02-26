@@ -22,14 +22,17 @@ namespace Storefront.DATA.EF.Models
         [NotMapped]
         [FileExtensions(Extensions = "png,jpeg,jpg,gif", ErrorMessage = ".png, .jpeg, .jpg, .gif")]
         public string? ImageName => ImageFile?.FileName;
-    }  
-   
+    }
+
     [ModelMetadataType(typeof(CustomerDataMetadata))]
     public partial class CustomerData
     {
+        [NotMapped]
+        [Display(Name = "Full Name")]
+        public string FullName => $"{FirstName} {LastName}";
 
-    } 
-    
+    }
+
     [ModelMetadataType(typeof(OrderMetadata))]
     public partial class Order
     {
@@ -46,6 +49,11 @@ namespace Storefront.DATA.EF.Models
     public partial class Record
     {
         public string SearchString => $"{RecordName} {ArtistId}";
+        [NotMapped]
+        public IFormFile? ImageFile { get; set; }
+        [NotMapped]
+        [FileExtensions(Extensions = "png,jpeg,jpg,gif", ErrorMessage = ".png, .jpeg, .jpg, .gif")]
+        public string? ImageName => ImageFile?.FileName;
     }
 
     [ModelMetadataType(typeof(GenreMetadata))]

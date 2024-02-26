@@ -4,11 +4,10 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<h2>Create New Record</h2>
 
-<h4>Record</h4>
-<hr />
-<div class="row">
+
+<div class="row cute-card">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -42,8 +41,10 @@
                 <span asp-validation-for="ExecutiveProducer" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StatusId" class="control-label"></label>
-                <select asp-for="StatusId" class ="form-control" asp-items="ViewBag.StatusId"></select>
+                <label asp-for="Artist.GenreId" class="control-label"></label>
+                <select asp-for="Artist.GenreId" class="form-control" asp-items="ViewBag.GenreId">
+                    <option value="">Select A Genre</option>
+                </select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
@@ -52,7 +53,7 @@
     </div>
 </div>
 
-<div>
+<div class="cute-button">
     <a asp-action="Index">Back to List</a>
 </div>
 

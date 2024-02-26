@@ -23,6 +23,6 @@ namespace Storefront.Models
         [StringLength(5, MinimumLength = 5)]
         [Display(Name = "Zip")]
         public string CustomerZip { get; set; } = null!;
-
-    }
+		public string FullName { get; internal set; }
+	}
 }

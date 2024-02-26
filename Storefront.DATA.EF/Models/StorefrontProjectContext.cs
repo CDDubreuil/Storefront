@@ -204,9 +204,9 @@ namespace Storefront.DATA.EF.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.LastName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.Phone)
+                      .HasMaxLength(10)
+                      .IsUnicode(false);
             });
 
             modelBuilder.Entity<Genre>(entity =>

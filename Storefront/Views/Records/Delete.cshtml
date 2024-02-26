@@ -8,9 +8,8 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Record</h4>
-    <hr />
-    <dl class="dl-horizontal">
+
+    <dl class="dl-horizontal cute-card">
         <dt>
             @Html.DisplayNameFor(model => model.RecordName)
         </dt>
@@ -48,16 +47,17 @@
             @Html.DisplayFor(model => model.Artist.ArtistName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Status)
+            @Html.DisplayNameFor(model => model.Artist.Genre.GenreName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Status.StatusId)
+            @Html.DisplayFor(model => model.Artist.Genre.GenreName)
         </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="RecordId" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn delete-button" /> |
+        <div class="cute-button"> <a asp-action="Index">Back to List</a></div>
+       
     </form>
 </div>

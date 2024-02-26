@@ -4,13 +4,12 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+<h1>Edit Record</h1>
 
-<h4>Record</h4>
-<hr />
-<div class="row">
+
+<div class="row cute-card">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="m">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="RecordId" />
             <div class="form-group">
@@ -44,8 +43,8 @@
                 <span asp-validation-for="ExecutiveProducer" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StatusId" class="control-label"></label>
-                <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId"></select>
+                <label asp-for="Artist.Genre.GenreName" class="control-label"></label>
+                <select asp-for="Artist.Genre.GenreName" class="form-control" asp-items="ViewBag.GenreName"></select>
                 <span asp-validation-for="StatusId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -55,9 +54,12 @@
     </div>
 </div>
 
-<div>
+         <a class="btn cute-button">
+                 <a asp-action="Delete" asp-route-id="@Model.RecordId"/> 
+            </a>
+<a class="btn cute-button">
     <a asp-action="Index">Back to List</a>
-</div>
+</a>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
